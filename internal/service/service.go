@@ -6,9 +6,10 @@ import (
 )
 
 type Authorization interface {
-	CreateUser(user domain.User) (int, error)
-	GenerateToken(username, password string) (string, error)
-	ParseToken(token string) (int, error)
+	CreateUser(user domain.User) (int64, error)
+	SignIn(username, password string) (string, string, error)
+	ParseToken(token string) (int64, error)
+	RefreshToken(refreshToken string) (string, string, error)
 }
 
 type Wallet interface {
@@ -25,6 +26,6 @@ type Service struct {
 
 func NewService(repos *repository.Repository) *Service {
 	return &Service{
-		Authorization: NewAuthService(repos.Authorization),
+		Authorization: NewAuthService(repos.Authorization, repos.Tokens),
 	}
 }

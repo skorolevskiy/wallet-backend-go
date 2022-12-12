@@ -7,8 +7,13 @@ import (
 )
 
 type Authorization interface {
-	CreateUser(user domain.User) (int, error)
+	CreateUser(user domain.User) (int64, error)
 	GetUser(username, password string) (domain.User, error)
+}
+
+type Tokens interface {
+	Create(token domain.RefreshToken) error
+	Get(token string) (domain.RefreshToken, error)
 }
 
 type Wallet interface {
@@ -19,6 +24,7 @@ type Transaction interface {
 
 type Repository struct {
 	Authorization
+	Tokens
 	Wallet
 	Transaction
 }
@@ -26,5 +32,6 @@ type Repository struct {
 func NewRepository(db *sqlx.DB) *Repository {
 	return &Repository{
 		Authorization: postgres.NewAuthPostgres(db),
+		Tokens:        postgres.NewTokens(db),
 	}
 }

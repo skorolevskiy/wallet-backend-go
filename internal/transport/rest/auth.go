@@ -1,7 +1,9 @@
 package rest
 
 import (
+	"fmt"
 	"github.com/gin-gonic/gin"
+	"github.com/sirupsen/logrus"
 	"github.com/skorolevskiy/wallet-backend-go/internal/domain"
 	"net/http"
 )
@@ -38,13 +40,37 @@ func (h *Handler) signIn(c *gin.Context) {
 		return
 	}
 
-	token, err := h.services.Authorization.GenerateToken(input.Email, input.Password)
+	accessToken, refreshToken, err := h.services.Authorization.SignIn(input.Email, input.Password)
 	if err != nil {
 		newErrorResponse(c, http.StatusInternalServerError, err.Error())
 		return
 	}
 
+	c.Header("Set-Cookie", fmt.Sprintf("refresh-token=%s; HttpOnly", refreshToken))
+	c.Header("Content-Type", "application/json")
 	c.JSON(http.StatusOK, map[string]interface{}{
-		"token": token,
+		"token": accessToken,
+	})
+}
+
+func (h *Handler) refresh(c *gin.Context) {
+	cookie, err := c.Cookie("refresh-token")
+	if err != nil {
+		newErrorResponse(c, http.StatusBadRequest, err.Error())
+		return
+	}
+
+	logrus.Infof("%s", cookie)
+
+	accessToken, refreshToken, err := h.services.Authorization.RefreshToken(cookie)
+	if err != nil {
+		newErrorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	c.Header("Set-Cookie", fmt.Sprintf("refresh-token=%s; HttpOnly", refreshToken))
+	c.Header("Content-Type", "application/json")
+	c.JSON(http.StatusOK, map[string]interface{}{
+		"token": accessToken,
 	})
 }
