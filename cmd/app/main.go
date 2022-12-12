@@ -5,6 +5,7 @@ import (
 	_ "github.com/lib/pq"
 	"github.com/skorolevskiy/wallet-backend-go/internal/config"
 	"github.com/skorolevskiy/wallet-backend-go/internal/repository"
+	"github.com/skorolevskiy/wallet-backend-go/internal/repository/postgres"
 	"github.com/skorolevskiy/wallet-backend-go/internal/server"
 	"github.com/skorolevskiy/wallet-backend-go/internal/service"
 	transport "github.com/skorolevskiy/wallet-backend-go/internal/transport/rest"
@@ -20,7 +21,7 @@ func main() {
 	if err := godotenv.Load(); err != nil {
 		log.Fatalf("error loading env variable: %s", err.Error())
 	}
-	db, err := repository.NewPostgresDB(repository.Config{
+	db, err := postgres.NewPostgresDB(postgres.Config{
 		Host:     viper.GetString("db.host"),
 		Port:     viper.GetString("db.ports"),
 		DBName:   viper.GetString("db.dbname"),
