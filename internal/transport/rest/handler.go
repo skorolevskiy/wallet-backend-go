@@ -23,7 +23,7 @@ func (h *Handler) InitRoutes() *gin.Engine {
 		user.GET("/refresh", h.refresh)
 	}
 
-	api := router.Group("/api")
+	api := router.Group("/api", h.userIdentity)
 	{
 
 		wallet := api.Group("/wallet")
