@@ -18,3 +18,11 @@ func (s *WalletService) CreateWallet(userId int64, wallet domain.Wallet) (int64,
 
 	return s.repo.CreateWallet(userId, wallet)
 }
+
+func (s *WalletService) GetAllWallets(userId int64) ([]domain.Wallet, error) {
+	return s.repo.GetAllWallets(userId)
+}
+
+func (s *WalletService) GetWalletById(userId, walletId int64) (domain.Wallet, error) {
+	return s.repo.GetWalletById(userId, walletId)
+}

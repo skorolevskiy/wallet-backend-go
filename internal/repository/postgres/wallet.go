@@ -21,3 +21,17 @@ func (r *WalletPostgres) CreateWallet(userId int64, wallet domain.Wallet) (int64
 
 	return id, err
 }
+
+func (r *WalletPostgres) GetAllWallets(userId int64) ([]domain.Wallet, error) {
+	var wallets []domain.Wallet
+	getAllQuery := fmt.Sprintf("SELECT id, user_id, name, balance, currency, register_at FROM %s WHERE user_id = $1", walletsTable)
+	err := r.db.Select(&wallets, getAllQuery, userId)
+	return wallets, err
+}
+
+func (r *WalletPostgres) GetWalletById(userId, walletId int64) (domain.Wallet, error) {
+	var wallet domain.Wallet
+	getByIdQuery := fmt.Sprintf("SELECT id, user_id, name, balance, currency, register_at FROM %s WHERE user_id = $1 AND id = $2", walletsTable)
+	err := r.db.Get(&wallet, getByIdQuery, userId, walletId)
+	return wallet, err
+}

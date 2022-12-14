@@ -18,6 +18,8 @@ type Tokens interface {
 
 type Wallet interface {
 	CreateWallet(userId int64, wallet domain.Wallet) (int64, error)
+	GetAllWallets(userId int64) ([]domain.Wallet, error)
+	GetWalletById(userId, walletId int64) (domain.Wallet, error)
 }
 
 type Transaction interface {
