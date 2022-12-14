@@ -34,3 +34,7 @@ func (s *WalletService) UpdateWallet(userId, walletId int64, input domain.Update
 
 	return s.repo.UpdateWallet(userId, walletId, input)
 }
+
+func (s *WalletService) DeleteWallet(userId, walletId int64) error {
+	return s.repo.DeleteWallet(userId, walletId)
+}

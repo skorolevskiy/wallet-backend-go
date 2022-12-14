@@ -17,6 +17,7 @@ type Wallet interface {
 	GetAllWallets(userId int64) ([]domain.Wallet, error)
 	GetWalletById(userId, walletId int64) (domain.Wallet, error)
 	UpdateWallet(userId, walletId int64, input domain.UpdateWalletInput) error
+	DeleteWallet(userId, walletId int64) error
 }
 
 type Transaction interface {

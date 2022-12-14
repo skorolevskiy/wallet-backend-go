@@ -64,3 +64,9 @@ func (r *WalletPostgres) UpdateWallet(userId, walletId int64, input domain.Updat
 	_, err := r.db.Exec(updateQuery, input.Name, input.Currency, walletId, userId)
 	return err
 }
+
+func (r *WalletPostgres) DeleteWallet(userId, walletId int64) error {
+	deleteQuery := fmt.Sprintf("DELETE FROM %s WHERE id=$1 AND  user_id=$2", walletsTable)
+	_, err := r.db.Exec(deleteQuery, walletId, userId)
+	return err
+}
