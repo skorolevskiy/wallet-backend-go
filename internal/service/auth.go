@@ -8,7 +8,6 @@ import (
 	"github.com/skorolevskiy/wallet-backend-go/internal/domain"
 	"github.com/skorolevskiy/wallet-backend-go/internal/repository"
 	"math/rand"
-	"strconv"
 	"time"
 )
 
@@ -53,7 +52,6 @@ func (s *AuthService) SignIn(username, password string) (string, string, error) 
 func (s *AuthService) generateTokens(userId int64) (string, string, error) {
 	t := jwt.NewWithClaims(jwt.SigningMethodHS256, &tokenClaims{
 		jwt.StandardClaims{
-			Subject:   strconv.Itoa(int(userId)),
 			IssuedAt:  time.Now().Unix(),
 			ExpiresAt: time.Now().Add(tokenTTL).Unix(),
 		},
@@ -87,7 +85,6 @@ func (s *AuthService) ParseToken(accessToken string) (int64, error) {
 
 		return []byte(signingKey), nil
 	})
-
 	if err != nil {
 		return 0, nil
 	}

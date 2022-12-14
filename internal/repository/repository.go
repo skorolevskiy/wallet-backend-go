@@ -17,6 +17,7 @@ type Tokens interface {
 }
 
 type Wallet interface {
+	CreateWallet(userId int64, wallet domain.Wallet) (int64, error)
 }
 
 type Transaction interface {
@@ -33,5 +34,6 @@ func NewRepository(db *sqlx.DB) *Repository {
 	return &Repository{
 		Authorization: postgres.NewAuthPostgres(db),
 		Tokens:        postgres.NewTokens(db),
+		Wallet:        postgres.NewWalletPostgres(db),
 	}
 }
