@@ -14,7 +14,7 @@ import (
 const (
 	salt           = "^3cH9s72^aM@Z-fM"
 	signingKey     = "1^3cH9s72^aM@Z-fM"
-	tokenTTL       = 15 * time.Minute
+	tokenTTL       = time.Hour
 	sessionExpires = time.Hour * 24 * 30
 )
 

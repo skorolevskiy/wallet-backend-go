@@ -26,3 +26,11 @@ func (s *WalletService) GetAllWallets(userId int64) ([]domain.Wallet, error) {
 func (s *WalletService) GetWalletById(userId, walletId int64) (domain.Wallet, error) {
 	return s.repo.GetWalletById(userId, walletId)
 }
+
+func (s *WalletService) UpdateWallet(userId, walletId int64, input domain.UpdateWalletInput) error {
+	if err := input.Validate(); err != nil {
+		return err
+	}
+
+	return s.repo.UpdateWallet(userId, walletId, input)
+}
