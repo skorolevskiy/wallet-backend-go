@@ -30,19 +30,20 @@ func (h *Handler) InitRoutes() *gin.Engine {
 		{
 			wallet.POST("/", h.createWallet)
 			wallet.GET("/", h.getAllWallets)
-			wallet.GET("/:id", h.getWalletById)
-			wallet.PUT("/:id", h.updateWallet)
-			wallet.DELETE("/:id", h.deleteWallet)
+			wallet.GET("/:wallet_id", h.getWalletById)
+			wallet.PUT("/:wallet_id", h.updateWallet)
+			wallet.DELETE("/:wallet_id", h.deleteWallet)
+
+			transaction := wallet.Group(":wallet_id/transaction")
+			{
+				transaction.POST("/", h.createTransaction)
+				transaction.GET("/", h.getAllTransactions)
+				transaction.GET("/:transaction_id", h.getTransactionById)
+				transaction.PUT("/:transaction_id", h.updateTransaction)
+				transaction.DELETE("/:transaction_id", h.deleteTransaction)
+			}
 		}
 
-		transaction := api.Group("/transaction")
-		{
-			transaction.POST("/", h.createTransaction)
-			transaction.GET("/", h.getAllTransactions)
-			transaction.GET("/:id", h.getTransactionById)
-			transaction.PUT("/:id", h.updateTransaction)
-			transaction.DELETE("/:id", h.deleteTransaction)
-		}
 	}
 
 	return router
