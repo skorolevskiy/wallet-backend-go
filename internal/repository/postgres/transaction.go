@@ -38,3 +38,17 @@ func (r *TransactionPostgres) CreateTransaction(walletId, userId int64, transact
 
 	return id, tx.Commit()
 }
+
+func (r *TransactionPostgres) GetAllTransactions(walletId int64) ([]domain.Transaction, error) {
+	var transactions []domain.Transaction
+	getAllQuery := fmt.Sprintf("SELECT id, wallet_id, description, amount, balance_after, commission_amount, currency, created_at FROM %s WHERE wallet_id = $1", transactionTable)
+	err := r.db.Select(&transactions, getAllQuery, walletId)
+	return transactions, err
+}
+
+func (r *TransactionPostgres) GetTransactionById(walletId, transactionId int64) (domain.Transaction, error) {
+	var transaction domain.Transaction
+	getByIdQuery := fmt.Sprintf("SELECT id, wallet_id, description, amount, balance_after, commission_amount, currency, created_at FROM %s WHERE wallet_id = $1 AND id = $2", transactionTable)
+	err := r.db.Get(&transaction, getByIdQuery, walletId, transactionId)
+	return transaction, err
+}

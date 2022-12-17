@@ -44,6 +44,13 @@ func (h *Handler) InitRoutes() *gin.Engine {
 			}
 		}
 
+		//transaction := api.Group("/transaction")
+		//{
+		//	transaction.GET("/:transaction_id", h.getTransactionById)
+		//	transaction.PUT("/:transaction_id", h.updateTransaction)
+		//	transaction.DELETE("/:transaction_id", h.deleteTransaction)
+		//}
+
 	}
 
 	return router

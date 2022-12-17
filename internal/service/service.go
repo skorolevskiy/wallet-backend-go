@@ -22,6 +22,8 @@ type Wallet interface {
 
 type Transaction interface {
 	CreateTransaction(userId, walletId int64, transaction domain.Transaction) (int64, error)
+	GetAllTransactions(userId, walletId int64) ([]domain.Transaction, error)
+	GetTransactionById(userId, walletId, transactionId int64) (domain.Transaction, error)
 }
 
 type Service struct {

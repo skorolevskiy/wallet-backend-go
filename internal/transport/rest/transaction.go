@@ -36,12 +36,58 @@ func (h *Handler) createTransaction(c *gin.Context) {
 	})
 }
 
-func (h *Handler) getAllTransactions(c *gin.Context) {
+type getAllTransactionResponse struct {
+	Data []domain.Transaction `json:"data"`
+}
 
+func (h *Handler) getAllTransactions(c *gin.Context) {
+	userId, err := getUserId(c)
+	if err != nil {
+		return
+	}
+
+	walletId, err := strconv.Atoi(c.Param("wallet_id"))
+	if err != nil {
+		newErrorResponse(c, http.StatusBadRequest, "invalid wallet id param")
+		return
+	}
+
+	transactions, err := h.services.GetAllTransactions(userId, int64(walletId))
+	if err != nil {
+		newErrorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	c.JSON(http.StatusOK, getAllTransactionResponse{
+		Data: transactions,
+	})
 }
 
 func (h *Handler) getTransactionById(c *gin.Context) {
+	userId, err := getUserId(c)
+	if err != nil {
+		return
+	}
 
+	walletId, err := strconv.Atoi(c.Param("wallet_id"))
+	if err != nil {
+		newErrorResponse(c, http.StatusBadRequest, "invalid wallet id param")
+		return
+	}
+
+	transactionId, err := strconv.Atoi(c.Param("transaction_id"))
+	if err != nil {
+		newErrorResponse(c, http.StatusBadRequest, "invalid transaction id param")
+		return
+	}
+
+	transaction, err := h.services.GetTransactionById(userId, int64(walletId), int64(transactionId))
+	if err != nil {
+		newErrorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	c.JSON(http.StatusOK, transaction)
 }
 
 func (h *Handler) updateTransaction(c *gin.Context) {

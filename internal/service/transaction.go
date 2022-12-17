@@ -23,3 +23,19 @@ func (s *TransactionService) CreateTransaction(userId, walletId int64, transacti
 	transaction.BalanceAfter = walletAmount + transaction.Amount - transaction.CommissionAmount
 	return s.repo.CreateTransaction(walletId, userId, transaction)
 }
+
+func (s *TransactionService) GetAllTransactions(userId, walletId int64) ([]domain.Transaction, error) {
+	_, err := s.walletRepo.GetWalletById(userId, walletId)
+	if err != nil {
+		return nil, err
+	}
+	return s.repo.GetAllTransactions(walletId)
+}
+
+func (s *TransactionService) GetTransactionById(userId, walletId, transactionId int64) (domain.Transaction, error) {
+	_, err := s.walletRepo.GetWalletById(userId, walletId)
+	if err != nil {
+		return domain.Transaction{}, err
+	}
+	return s.repo.GetTransactionById(walletId, transactionId)
+}
