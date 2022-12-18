@@ -18,6 +18,7 @@ CREATE TABLE wallets (
 CREATE TABLE transactions (
     id serial PRIMARY KEY,
     wallet_id int not null REFERENCES wallets(id) ON DELETE CASCADE,
+    description varchar(255),
     amount float not null,
     balance_after float not null,
     commission_amount float,

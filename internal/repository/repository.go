@@ -25,6 +25,12 @@ type Wallet interface {
 }
 
 type Transaction interface {
+	CreateTransaction(walletId, userId int64, transaction domain.Transaction) (int64, error)
+	GetAllTransactions(walletId int64) ([]domain.Transaction, error)
+	GetTransactionById(userId, transactionId int64) (domain.Transaction, error)
+	UpdateTransaction(userId, walletId, transactionId int64, input domain.UpdateTransactionInput, amount float64) error
+	UpdateTransactionBalance(walletId, transactionId int64, amount float64) error
+	DeleteTransaction(userId, walletId, transactionId int64, amount float64) error
 }
 
 type Repository struct {
@@ -39,5 +45,6 @@ func NewRepository(db *sqlx.DB) *Repository {
 		Authorization: postgres.NewAuthPostgres(db),
 		Tokens:        postgres.NewTokens(db),
 		Wallet:        postgres.NewWalletPostgres(db),
+		Transaction:   postgres.NewTransactionPostgres(db),
 	}
 }

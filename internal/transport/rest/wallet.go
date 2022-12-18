@@ -57,7 +57,7 @@ func (h *Handler) getWalletById(c *gin.Context) {
 		return
 	}
 
-	walletId, err := strconv.Atoi(c.Param("id"))
+	walletId, err := strconv.Atoi(c.Param("wallet_id"))
 	if err != nil {
 		newErrorResponse(c, http.StatusBadRequest, "invalid id param")
 		return
@@ -78,7 +78,7 @@ func (h *Handler) updateWallet(c *gin.Context) {
 		return
 	}
 
-	walletId, err := strconv.Atoi(c.Param("id"))
+	walletId, err := strconv.Atoi(c.Param("wallet_id"))
 	if err != nil {
 		newErrorResponse(c, http.StatusBadRequest, "invalid id param")
 		return
@@ -104,7 +104,7 @@ func (h *Handler) deleteWallet(c *gin.Context) {
 		return
 	}
 
-	walletId, err := strconv.Atoi(c.Param("id"))
+	walletId, err := strconv.Atoi(c.Param("wallet_id"))
 	if err != nil {
 		newErrorResponse(c, http.StatusBadRequest, "invalid id param")
 		return
