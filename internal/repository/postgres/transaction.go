@@ -132,3 +132,23 @@ func (r *TransactionPostgres) UpdateTransactionBalance(walletId, transactionId i
 
 	return err
 }
+
+func (r *TransactionPostgres) DeleteTransaction(userId, walletId, transactionId int64, amount float64) error {
+	tx, err := r.db.Begin()
+	if err != nil {
+		return err
+	}
+	deleteQuery := fmt.Sprintf("DELETE FROM %s WHERE wallet_id=$1 AND id=$2", transactionTable)
+	_, err = tx.Exec(deleteQuery, walletId, transactionId)
+	if err != nil {
+		tx.Rollback()
+		return err
+	}
+	createWalletUpdateQuery := fmt.Sprintf("UPDATE %s SET balance=balance-$1 WHERE id=$2 AND user_id=$3", walletsTable)
+	_, err = tx.Exec(createWalletUpdateQuery, amount, walletId, userId)
+	if err != nil {
+		tx.Rollback()
+		return err
+	}
+	return tx.Commit()
+}

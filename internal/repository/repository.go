@@ -30,6 +30,7 @@ type Transaction interface {
 	GetTransactionById(userId, transactionId int64) (domain.Transaction, error)
 	UpdateTransaction(userId, walletId, transactionId int64, input domain.UpdateTransactionInput, amount float64) error
 	UpdateTransactionBalance(walletId, transactionId int64, amount float64) error
+	DeleteTransaction(userId, walletId, transactionId int64, amount float64) error
 }
 
 type Repository struct {

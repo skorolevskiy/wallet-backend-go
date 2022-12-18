@@ -74,3 +74,20 @@ func (s *TransactionService) UpdateTransaction(userId, walletId, transactionId i
 
 	return s.repo.UpdateTransaction(userId, walletId, transactionId, input, newTransactionChangeAmount)
 }
+
+func (s *TransactionService) DeleteTransaction(userId, walletId, transactionId int64) error {
+	_, err := s.walletRepo.GetWalletById(userId, walletId)
+	if err != nil {
+		return err
+	}
+	transactionDB, err := s.repo.GetTransactionById(walletId, transactionId)
+	if err != nil {
+		return err
+	}
+	amount := transactionDB.Amount - transactionDB.CommissionAmount
+	err = s.repo.UpdateTransactionBalance(walletId, transactionId, -amount)
+	if err != nil {
+		return err
+	}
+	return s.repo.DeleteTransaction(userId, walletId, transactionId, amount)
+}

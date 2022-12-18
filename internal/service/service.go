@@ -25,6 +25,7 @@ type Transaction interface {
 	GetAllTransactions(userId, walletId int64) ([]domain.Transaction, error)
 	GetTransactionById(userId, walletId, transactionId int64) (domain.Transaction, error)
 	UpdateTransaction(userId, walletId, transactionId int64, input domain.UpdateTransactionInput) error
+	DeleteTransaction(userId, walletId, transactionId int64) error
 }
 
 type Service struct {

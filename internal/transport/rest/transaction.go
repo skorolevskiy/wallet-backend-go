@@ -123,5 +123,28 @@ func (h *Handler) updateTransaction(c *gin.Context) {
 }
 
 func (h *Handler) deleteTransaction(c *gin.Context) {
+	userId, err := getUserId(c)
+	if err != nil {
+		return
+	}
 
+	walletId, err := strconv.Atoi(c.Param("wallet_id"))
+	if err != nil {
+		newErrorResponse(c, http.StatusBadRequest, "invalid wallet id param")
+		return
+	}
+
+	transactionId, err := strconv.Atoi(c.Param("transaction_id"))
+	if err != nil {
+		newErrorResponse(c, http.StatusBadRequest, "invalid transaction id param")
+		return
+	}
+
+	err = h.services.DeleteTransaction(userId, int64(walletId), int64(transactionId))
+	if err != nil {
+		newErrorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	c.JSON(http.StatusOK, StatusResponse{"ok"})
 }
