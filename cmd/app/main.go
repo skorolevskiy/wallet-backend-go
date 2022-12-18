@@ -7,10 +7,10 @@ import (
 	"github.com/sirupsen/logrus"
 	"github.com/skorolevskiy/wallet-backend-go/internal/config"
 	"github.com/skorolevskiy/wallet-backend-go/internal/repository"
-	"github.com/skorolevskiy/wallet-backend-go/internal/repository/postgres"
 	"github.com/skorolevskiy/wallet-backend-go/internal/server"
 	"github.com/skorolevskiy/wallet-backend-go/internal/service"
 	transport "github.com/skorolevskiy/wallet-backend-go/internal/transport/rest"
+	"github.com/skorolevskiy/wallet-backend-go/pkg/database"
 	"github.com/spf13/viper"
 	"os"
 	"os/signal"
@@ -18,13 +18,14 @@ import (
 )
 
 func main() {
+	logrus.SetFormatter(new(logrus.JSONFormatter))
 	if err := config.InitConfig(); err != nil {
 		logrus.Fatalf("error initialization configs: %s", err.Error())
 	}
 	if err := godotenv.Load(); err != nil {
 		logrus.Fatalf("error loading env variable: %s", err.Error())
 	}
-	db, err := postgres.NewPostgresDB(postgres.Config{
+	db, err := database.NewPostgresDB(database.Config{
 		Host:     viper.GetString("db.host"),
 		Port:     viper.GetString("db.ports"),
 		DBName:   viper.GetString("db.dbname"),

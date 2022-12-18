@@ -1,14 +1,8 @@
-package postgres
+package database
 
 import (
 	"fmt"
 	"github.com/jmoiron/sqlx"
-)
-
-const (
-	usersTable       = "users"
-	walletsTable     = "wallets"
-	transactionTable = "transactions"
 )
 
 type Config struct {
