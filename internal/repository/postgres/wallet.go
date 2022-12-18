@@ -59,9 +59,9 @@ func (r *WalletPostgres) UpdateWallet(userId, walletId int64, input domain.Updat
 	updateQuery := fmt.Sprintf("UPDATE %s SET %s WHERE id=$%d AND user_id=$%d", walletsTable, setQuery, argId, argId+1)
 
 	args = append(args, walletId, userId)
-	logrus.Debug("update Query: %s", updateQuery)
-	logrus.Debug("args: %s", args)
-	_, err := r.db.Exec(updateQuery, input.Name, input.Currency, walletId, userId)
+	logrus.Debugf("update Query: %s", updateQuery)
+	logrus.Debugf("args: %s", args)
+	_, err := r.db.Exec(updateQuery, args...)
 	return err
 }
 

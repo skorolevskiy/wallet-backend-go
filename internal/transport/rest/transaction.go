@@ -91,7 +91,35 @@ func (h *Handler) getTransactionById(c *gin.Context) {
 }
 
 func (h *Handler) updateTransaction(c *gin.Context) {
+	userId, err := getUserId(c)
+	if err != nil {
+		return
+	}
 
+	walletId, err := strconv.Atoi(c.Param("wallet_id"))
+	if err != nil {
+		newErrorResponse(c, http.StatusBadRequest, "invalid wallet id param")
+		return
+	}
+
+	transactionId, err := strconv.Atoi(c.Param("transaction_id"))
+	if err != nil {
+		newErrorResponse(c, http.StatusBadRequest, "invalid transaction id param")
+		return
+	}
+
+	var input domain.UpdateTransactionInput
+	if err := c.BindJSON(&input); err != nil {
+		newErrorResponse(c, http.StatusBadRequest, err.Error())
+		return
+	}
+
+	if err = h.services.UpdateTransaction(userId, int64(walletId), int64(transactionId), input); err != nil {
+		newErrorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	c.JSON(http.StatusOK, StatusResponse{"ok"})
 }
 
 func (h *Handler) deleteTransaction(c *gin.Context) {
