@@ -7,20 +7,20 @@ import (
 	"strconv"
 )
 
-// @Summary		Create transaction
-// @Security		ApiKeyAuth
-// @Tags			transactions
-// @Description	create transaction
-// @ID				create-transaction
-// @Accept			json
-// @Produce		json
-// @Param			input	body		domain.Transaction	true	"wallet info"
-// @Param        walletId   path      int  true  "Wallet ID"
-// @Success		200		{integer}	integer			1
-// @Failure		400,404	{object}	errorResponse
-// @Failure		500		{object}	errorResponse
-// @Failure		default	{object}	errorResponse
-// @Router			/api/wallet/{walletId}/transaction [post]
+//	@Summary		Create transaction
+//	@Security		ApiKeyAuth
+//	@Tags			transactions
+//	@Description	create transaction
+//	@ID				create-transaction
+//	@Accept			json
+//	@Produce		json
+//	@Param			input		body		domain.Transaction	true	"wallet info"
+//	@Param			walletId	path		int					true	"Wallet ID"
+//	@Success		200			{integer}	integer				1
+//	@Failure		400,404		{object}	errorResponse
+//	@Failure		500			{object}	errorResponse
+//	@Failure		default		{object}	errorResponse
+//	@Router			/api/wallet/{walletId}/transaction [post]
 func (h *Handler) createTransaction(c *gin.Context) {
 	userId, err := getUserId(c)
 	if err != nil {
@@ -54,19 +54,19 @@ type getAllTransactionResponse struct {
 	Data []domain.Transaction `json:"data"`
 }
 
-// @Summary		Get All Transactions
-// @Security		ApiKeyAuth
-// @Tags			transactions
-// @Description	get all transactions
-// @ID				get-all-transactions
-// @Accept			json
-// @Produce		json
-// @Param        walletId   path      int  true  "Wallet ID"
-// @Success		200		{object}	getAllTransactionResponse
-// @Failure		400,404	{object}	errorResponse
-// @Failure		500		{object}	errorResponse
-// @Failure		default	{object}	errorResponse
-// @Router			/api/wallet/{walletId}/transaction [get]
+//	@Summary		Get All Transactions
+//	@Security		ApiKeyAuth
+//	@Tags			transactions
+//	@Description	get all transactions
+//	@ID				get-all-transactions
+//	@Accept			json
+//	@Produce		json
+//	@Param			walletId	path		int	true	"Wallet ID"
+//	@Success		200			{object}	getAllTransactionResponse
+//	@Failure		400,404		{object}	errorResponse
+//	@Failure		500			{object}	errorResponse
+//	@Failure		default		{object}	errorResponse
+//	@Router			/api/wallet/{walletId}/transaction [get]
 func (h *Handler) getAllTransactions(c *gin.Context) {
 	userId, err := getUserId(c)
 	if err != nil {
@@ -90,20 +90,20 @@ func (h *Handler) getAllTransactions(c *gin.Context) {
 	})
 }
 
-// @Summary		Get transaction By ID
-// @Security		ApiKeyAuth
-// @Tags			transactions
-// @Description	get transaction by id
-// @ID				get-transaction-by-id
-// @Accept			json
-// @Produce		json
-// @Param        walletId   path      int  true  "Wallet ID"
-// @Param        transactionId   path      int  true  "Transaction ID"
-// @Success		200		{object}	domain.Transaction
-// @Failure		400,404	{object}	errorResponse
-// @Failure		500		{object}	errorResponse
-// @Failure		default	{object}	errorResponse
-// @Router			/api/wallet/{walletId}/transaction/{transactionId} [get]
+//	@Summary		Get transaction By ID
+//	@Security		ApiKeyAuth
+//	@Tags			transactions
+//	@Description	get transaction by id
+//	@ID				get-transaction-by-id
+//	@Accept			json
+//	@Produce		json
+//	@Param			walletId		path		int	true	"Wallet ID"
+//	@Param			transactionId	path		int	true	"Transaction ID"
+//	@Success		200				{object}	domain.Transaction
+//	@Failure		400,404			{object}	errorResponse
+//	@Failure		500				{object}	errorResponse
+//	@Failure		default			{object}	errorResponse
+//	@Router			/api/wallet/{walletId}/transaction/{transactionId} [get]
 func (h *Handler) getTransactionById(c *gin.Context) {
 	userId, err := getUserId(c)
 	if err != nil {
@@ -131,21 +131,21 @@ func (h *Handler) getTransactionById(c *gin.Context) {
 	c.JSON(http.StatusOK, transaction)
 }
 
-// @Summary		Update Transaction
-// @Security		ApiKeyAuth
-// @Tags			transactions
-// @Description	update transaction
-// @ID				update-transaction
-// @Accept			json
-// @Produce		json
-// @Param			input	body		domain.UpdateTransactionInput	true	"wallet updated info"
-// @Param        walletId   path      int  true  "Wallet ID"
-// @Param        transactionId   path      int  true  "Transaction ID"
-// @Success		200		{object}	string "ok"
-// @Failure		400,404	{object}	errorResponse
-// @Failure		500		{object}	errorResponse
-// @Failure		default	{object}	errorResponse
-// @Router			/api/wallet/{walletId}/transaction/{transactionId} [put]
+//	@Summary		Update Transaction
+//	@Security		ApiKeyAuth
+//	@Tags			transactions
+//	@Description	update transaction
+//	@ID				update-transaction
+//	@Accept			json
+//	@Produce		json
+//	@Param			input			body		domain.UpdateTransactionInput	true	"wallet updated info"
+//	@Param			walletId		path		int								true	"Wallet ID"
+//	@Param			transactionId	path		int								true	"Transaction ID"
+//	@Success		200				{object}	string							"ok"
+//	@Failure		400,404			{object}	errorResponse
+//	@Failure		500				{object}	errorResponse
+//	@Failure		default			{object}	errorResponse
+//	@Router			/api/wallet/{walletId}/transaction/{transactionId} [put]
 func (h *Handler) updateTransaction(c *gin.Context) {
 	userId, err := getUserId(c)
 	if err != nil {
@@ -178,20 +178,20 @@ func (h *Handler) updateTransaction(c *gin.Context) {
 	c.JSON(http.StatusOK, StatusResponse{"ok"})
 }
 
-// @Summary		Delete Transaction
-// @Security		ApiKeyAuth
-// @Tags			transactions
-// @Description	delete transaction
-// @ID				delete-transaction
-// @Accept			json
-// @Produce		json
-// @Param        walletId   path      int  true  "Wallet ID"
-// @Param        transactionId   path      int  true  "Transaction ID"
-// @Success		200		{object}	string "ok"
-// @Failure		400,404	{object}	errorResponse
-// @Failure		500		{object}	errorResponse
-// @Failure		default	{object}	errorResponse
-// @Router			/api/wallet/{walletId}/transaction/{transactionId} [delete]
+//	@Summary		Delete Transaction
+//	@Security		ApiKeyAuth
+//	@Tags			transactions
+//	@Description	delete transaction
+//	@ID				delete-transaction
+//	@Accept			json
+//	@Produce		json
+//	@Param			walletId		path		int		true	"Wallet ID"
+//	@Param			transactionId	path		int		true	"Transaction ID"
+//	@Success		200				{object}	string	"ok"
+//	@Failure		400,404			{object}	errorResponse
+//	@Failure		500				{object}	errorResponse
+//	@Failure		default			{object}	errorResponse
+//	@Router			/api/wallet/{walletId}/transaction/{transactionId} [delete]
 func (h *Handler) deleteTransaction(c *gin.Context) {
 	userId, err := getUserId(c)
 	if err != nil {

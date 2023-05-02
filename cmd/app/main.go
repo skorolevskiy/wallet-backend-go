@@ -21,8 +21,8 @@ import (
 //	@version		1.0
 //	@description	API server for Wallet Application
 
-//	@host			localhost:8000
-//	@BasePath		/
+//	@host		localhost:8000
+//	@BasePath	/
 
 //	@securityDefinitions.apikey	ApiKeyAuth
 //	@in							header

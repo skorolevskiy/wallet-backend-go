@@ -8,18 +8,18 @@ import (
 	"net/http"
 )
 
-// @Summary		SignUp
-// @Tags			auth
-// @Description	create account
-// @ID				create-account
-// @Accept			json
-// @Produce		json
-// @Param			input	body		domain.User	true	"account info"
-// @Success		200		{integer}	integer		1
-// @Failure		400,404	{object}	errorResponse
-// @Failure		500		{object}	errorResponse
-// @Failure		default	{object}	errorResponse
-// @Router			/auth/sign-up [post]
+//	@Summary		SignUp
+//	@Tags			auth
+//	@Description	create account
+//	@ID				create-account
+//	@Accept			json
+//	@Produce		json
+//	@Param			input	body		domain.User	true	"account info"
+//	@Success		200		{integer}	integer		1
+//	@Failure		400,404	{object}	errorResponse
+//	@Failure		500		{object}	errorResponse
+//	@Failure		default	{object}	errorResponse
+//	@Router			/auth/sign-up [post]
 func (h *Handler) signUp(c *gin.Context) {
 	var input domain.User
 
@@ -44,18 +44,18 @@ type signInInput struct {
 	Password string `json:"password" binding:"required"`
 }
 
-// @Summary		SignIn
-// @Tags			auth
-// @Description	login
-// @ID				login
-// @Accept			json
-// @Produce		json
-// @Param			input	body		signInInput	true	"credentials"
-// @Success		200		{string}	string		"token"
-// @Failure		400,404	{object}	errorResponse
-// @Failure		500		{object}	errorResponse
-// @Failure		default	{object}	errorResponse
-// @Router			/auth/sign-in [post]
+//	@Summary		SignIn
+//	@Tags			auth
+//	@Description	login
+//	@ID				login
+//	@Accept			json
+//	@Produce		json
+//	@Param			input	body		signInInput	true	"credentials"
+//	@Success		200		{string}	string		"token"
+//	@Failure		400,404	{object}	errorResponse
+//	@Failure		500		{object}	errorResponse
+//	@Failure		default	{object}	errorResponse
+//	@Router			/auth/sign-in [post]
 func (h *Handler) signIn(c *gin.Context) {
 	var input signInInput
 
@@ -77,17 +77,17 @@ func (h *Handler) signIn(c *gin.Context) {
 	})
 }
 
-// @Summary		RefreshToken
-// @Tags			auth
-// @Description	Refresh token
-// @ID				refresh-token
-// @Accept			json
-// @Produce		json
-// @Success		200		{string}	string	"token"
-// @Failure		400,404	{object}	errorResponse
-// @Failure		500		{object}	errorResponse
-// @Failure		default	{object}	errorResponse
-// @Router			/auth/refresh [get]
+//	@Summary		RefreshToken
+//	@Tags			auth
+//	@Description	Refresh token
+//	@ID				refresh-token
+//	@Accept			json
+//	@Produce		json
+//	@Success		200		{string}	string	"token"
+//	@Failure		400,404	{object}	errorResponse
+//	@Failure		500		{object}	errorResponse
+//	@Failure		default	{object}	errorResponse
+//	@Router			/auth/refresh [get]
 func (h *Handler) refresh(c *gin.Context) {
 	cookie, err := c.Cookie("refresh-token")
 	if err != nil {
