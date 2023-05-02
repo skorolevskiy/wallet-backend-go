@@ -1,0 +1,647 @@
+basePath: /
+definitions:
+  domain.Transaction:
+    properties:
+      amount:
+        type: number
+      balanceAfter:
+        type: number
+      commissionAmount:
+        type: number
+      createdAt:
+        type: string
+      currency:
+        type: string
+      description:
+        type: string
+      id:
+        type: integer
+      walletId:
+        type: integer
+    type: object
+  domain.UpdateTransactionInput:
+    properties:
+      amount:
+        type: number
+      balanceAfter:
+        type: number
+      commissionAmount:
+        type: number
+      currency:
+        type: string
+      description:
+        type: string
+    type: object
+  domain.UpdateWalletInput:
+    properties:
+      currency:
+        type: string
+      name:
+        type: string
+    type: object
+  domain.User:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+      registerAt:
+        type: string
+      username:
+        type: string
+    required:
+    - email
+    - password
+    - username
+    type: object
+  domain.Wallet:
+    properties:
+      balance:
+        type: number
+      currency:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      register_at:
+        type: string
+      user_id:
+        type: integer
+    required:
+    - name
+    type: object
+  rest.errorResponse:
+    properties:
+      message:
+        type: string
+    type: object
+  rest.getAllTransactionResponse:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/domain.Transaction'
+        type: array
+    type: object
+  rest.getAllWalletsResponse:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/domain.Wallet'
+        type: array
+    type: object
+  rest.signInInput:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+    required:
+    - email
+    - password
+    type: object
+host: localhost:8000
+info:
+  contact: {}
+  description: API server for Wallet Application
+  title: Wallet Simple API
+  version: "1.0"
+paths:
+  /api/wallet:
+    get:
+      consumes:
+      - application/json
+      description: get all wallets
+      operationId: get-all-wallets
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/rest.getAllWalletsResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/rest.errorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/rest.errorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/rest.errorResponse'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/rest.errorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Get All Wallets
+      tags:
+      - wallets
+    post:
+      consumes:
+      - application/json
+      description: create wallet
+      operationId: create-wallet
+      parameters:
+      - description: wallet info
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/domain.Wallet'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: integer
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/rest.errorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/rest.errorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/rest.errorResponse'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/rest.errorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Create wallet
+      tags:
+      - wallets
+  /api/wallet/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: delete wallet
+      operationId: delete-wallet
+      parameters:
+      - description: Wallet ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ok
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/rest.errorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/rest.errorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/rest.errorResponse'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/rest.errorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Delete Wallet
+      tags:
+      - wallets
+    get:
+      consumes:
+      - application/json
+      description: get wallet by id
+      operationId: get-wallet-by-id
+      parameters:
+      - description: Wallet ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.Wallet'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/rest.errorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/rest.errorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/rest.errorResponse'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/rest.errorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Get Wallet By ID
+      tags:
+      - wallets
+    put:
+      consumes:
+      - application/json
+      description: update wallet
+      operationId: update-wallet
+      parameters:
+      - description: wallet updated info
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/domain.UpdateWalletInput'
+      - description: Wallet ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ok
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/rest.errorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/rest.errorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/rest.errorResponse'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/rest.errorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Update Wallet
+      tags:
+      - wallets
+  /api/wallet/{walletId}/transaction:
+    get:
+      consumes:
+      - application/json
+      description: get all transactions
+      operationId: get-all-transactions
+      parameters:
+      - description: Wallet ID
+        in: path
+        name: walletId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/rest.getAllTransactionResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/rest.errorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/rest.errorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/rest.errorResponse'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/rest.errorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Get All Transactions
+      tags:
+      - transactions
+    post:
+      consumes:
+      - application/json
+      description: create transaction
+      operationId: create-transaction
+      parameters:
+      - description: wallet info
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/domain.Transaction'
+      - description: Wallet ID
+        in: path
+        name: walletId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: integer
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/rest.errorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/rest.errorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/rest.errorResponse'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/rest.errorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Create transaction
+      tags:
+      - transactions
+  /api/wallet/{walletId}/transaction/{transactionId}:
+    delete:
+      consumes:
+      - application/json
+      description: delete transaction
+      operationId: delete-transaction
+      parameters:
+      - description: Wallet ID
+        in: path
+        name: walletId
+        required: true
+        type: integer
+      - description: Transaction ID
+        in: path
+        name: transactionId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ok
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/rest.errorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/rest.errorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/rest.errorResponse'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/rest.errorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Delete Transaction
+      tags:
+      - transactions
+    get:
+      consumes:
+      - application/json
+      description: get transaction by id
+      operationId: get-transaction-by-id
+      parameters:
+      - description: Wallet ID
+        in: path
+        name: walletId
+        required: true
+        type: integer
+      - description: Transaction ID
+        in: path
+        name: transactionId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.Transaction'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/rest.errorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/rest.errorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/rest.errorResponse'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/rest.errorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Get transaction By ID
+      tags:
+      - transactions
+    put:
+      consumes:
+      - application/json
+      description: update transaction
+      operationId: update-transaction
+      parameters:
+      - description: wallet updated info
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/domain.UpdateTransactionInput'
+      - description: Wallet ID
+        in: path
+        name: walletId
+        required: true
+        type: integer
+      - description: Transaction ID
+        in: path
+        name: transactionId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ok
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/rest.errorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/rest.errorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/rest.errorResponse'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/rest.errorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Update Transaction
+      tags:
+      - transactions
+  /auth/refresh:
+    get:
+      consumes:
+      - application/json
+      description: Refresh token
+      operationId: refresh-token
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: token
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/rest.errorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/rest.errorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/rest.errorResponse'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/rest.errorResponse'
+      summary: RefreshToken
+      tags:
+      - auth
+  /auth/sign-in:
+    post:
+      consumes:
+      - application/json
+      description: login
+      operationId: login
+      parameters:
+      - description: credentials
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/rest.signInInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: token
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/rest.errorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/rest.errorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/rest.errorResponse'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/rest.errorResponse'
+      summary: SignIn
+      tags:
+      - auth
+  /auth/sign-up:
+    post:
+      consumes:
+      - application/json
+      description: create account
+      operationId: create-account
+      parameters:
+      - description: account info
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/domain.User'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: integer
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/rest.errorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/rest.errorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/rest.errorResponse'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/rest.errorResponse'
+      summary: SignUp
+      tags:
+      - auth
+securityDefinitions:
+  ApiKeyAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"
